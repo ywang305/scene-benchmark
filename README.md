@@ -18,10 +18,11 @@ This project contains Playwright end-to-end tests for benchmarking visual scene 
 
 2. **Set environment variables**
 
-   Create a `.env.local` file in the project root with the following content:
+   Create/Config `.env.local` file in the project root with the following content:
 
    ```env
    TEST_URL=<your_visualization_app_url>
+   # Example: TEST_URL=http://localhost:1002/#/lobby/1002
    ```
 
    Replace `<your_visualization_app_url>` with the URL of the app to test.

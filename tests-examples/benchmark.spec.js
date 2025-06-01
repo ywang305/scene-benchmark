@@ -54,24 +54,27 @@ test.describe("Visual Scenes Benchmark", () => {
     await canvas.screenshot({ path: `pictures/${prompt}.png` });
   });
 
-  prompts.slice(0, 3).forEach((prompt) => {
+  prompts.slice(61).forEach((prompt) => {
     test(`Scene: ${prompt}`, async ({ page }) => {
       // Wait for the page to load and the visualization to be ready
       // Wait for the canvas element to be rendered and visible
-      await page.waitForSelector("canvas", { state: "visible" });
+      await page.waitForSelector("canvas", {
+        state: "visible",
+        timeout: 60_000,
+      });
 
       await page.waitForTimeout(2_000);
 
       const chatbox = page.getByRole("textbox");
       const messageScrollPanel = page.locator("#scrollRef");
 
-      await chatbox.fill(`/ai ${prompt}`);
-      await chatbox.press("Enter");
-
       const doneMessages = await messageScrollPanel
         .getByText("Done! Json returned!")
         .all();
       const doneMessagesCount = doneMessages.length;
+
+      await chatbox.fill(`/ai ${prompt}`);
+      await chatbox.press("Enter");
 
       // Wait until a new "Done! Json returned!" message appears
       await expect(async () => {
@@ -80,8 +83,8 @@ test.describe("Visual Scenes Benchmark", () => {
           .all();
         expect(newDoneMessages.length).toBe(doneMessagesCount + 1);
       }).toPass({
-        timeout: 120_000,
-      }); // wait up to 60 seconds
+        timeout: 300_000,
+      }); // wait up to 5 minutes
 
       await page.waitForTimeout(5_000); // in case scene is in still updating
       const canvas = await page.locator("canvas");
