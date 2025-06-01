@@ -54,7 +54,7 @@ test.describe("Visual Scenes Benchmark", () => {
     await canvas.screenshot({ path: `pictures/${prompt}.png` });
   });
 
-  prompts.slice(61).forEach((prompt) => {
+  prompts.slice(0).forEach((prompt) => {
     test(`Scene: ${prompt}`, async ({ page }) => {
       // Wait for the page to load and the visualization to be ready
       // Wait for the canvas element to be rendered and visible
